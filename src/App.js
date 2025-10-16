@@ -1,5 +1,6 @@
 import { Console } from "@woowacourse/mission-utils";
 import { parseDelimiter } from "./utils/delimiter.js";
+import { calculate } from "./utils/calculator.js";
 
 class App {
   async run() {
@@ -8,9 +9,10 @@ class App {
     );
 
     const [strippedInput, delimiter] = parseDelimiter(input);
+    const numbers = strippedInput.split(delimiter);
+    const result = calculate(numbers);
 
-    Console.print(strippedInput);
-    Console.print(delimiter);
+    Console.print(result);
   }
 }
 
