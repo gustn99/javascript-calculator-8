@@ -1,3 +1,5 @@
+import { isNumber } from "./isNumber.js";
+
 export const parseDelimiter = (input) => {
   const matches = [...input.matchAll(/\/\/(.*?)\\n/g)];
 
@@ -25,7 +27,7 @@ const validateDelimiter = (delimiter) => {
     throw new Error("[ERROR] 구분자는 하나 이상의 문자여야 합니다.");
   }
 
-  if (/^[0-9]$/.test(delimiter)) {
+  if (isNumber(delimiter)) {
     throw new Error("[ERROR] 숫자는 구분자가 될 수 없습니다.");
   }
 };
