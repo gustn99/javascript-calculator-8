@@ -1,21 +1,15 @@
-import { isNumber } from "./isNumber.js";
+import { isNumber } from "./common.js";
 
 export const calculate = (numbers) => {
   if (numbers.length === 1 && numbers[0] === "") {
     return 0;
   }
 
-  const validNumbers = numbers.map((n) => {
-    validateNumber(n);
-    return Number(n);
-  });
-
-  const result = validNumbers.reduce((total, num) => total + num, 0);
-
+  const result = numbers.reduce((total, num) => total + num, 0);
   return result;
 };
 
-const validateNumber = (num) => {
+export const validateNumber = (num) => {
   if (num.trim() === "") {
     throw new Error("[ERROR] 잘못된 수식입니다.");
   }

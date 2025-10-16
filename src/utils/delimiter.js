@@ -1,4 +1,4 @@
-import { isNumber } from "./isNumber.js";
+import { isNumber } from "./common.js";
 
 export const parseDelimiter = (input) => {
   const matches = [...input.matchAll(/\/\/(.*?)\\n/g)];
