@@ -1,4 +1,5 @@
 import { Console } from "@woowacourse/mission-utils";
+import { parseDelimiter } from "./utils/delimiter.js";
 
 class App {
   async run() {
@@ -6,7 +7,10 @@ class App {
       "덧셈할 문자열을 입력해 주세요.\n"
     );
 
-    Console.print(input);
+    const [strippedInput, delimiter] = parseDelimiter(input);
+
+    Console.print(strippedInput);
+    Console.print(delimiter);
   }
 }
 
