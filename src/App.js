@@ -17,7 +17,7 @@ class App {
 
     const result = calculate(validNumbers);
 
-    Console.print(result);
+    Console.print(`결과 : ${result}`);
   }
 }
 
