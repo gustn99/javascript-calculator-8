@@ -1,6 +1,6 @@
 import { Console } from "@woowacourse/mission-utils";
 import { parseDelimiter } from "./utils/delimiter.js";
-import { calculate, parseNumber, validateNumber } from "./utils/number.js";
+import { calculate, validateNumber } from "./utils/number.js";
 
 class App {
   async run() {

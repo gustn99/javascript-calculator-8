@@ -3,11 +3,13 @@ import { isNumber } from "./common.js";
 export const parseDelimiter = (input) => {
   const matches = [...input.matchAll(/\/\/(.*?)\\n/g)];
 
-  if (matches.length === 0) {
+  if (matches.length === 0 || !matches[0]) {
     // 커스텀 구분자가 없는 경우
     const delimiter = /[,:]/;
     return [input, delimiter];
-  } else if (matches.length === 1) {
+  }
+
+  if (matches.length === 1) {
     // 커스텀 구분자가 하나인 경우
     const delimiter = matches[0][1];
     validateDelimiter(delimiter);
@@ -16,10 +18,10 @@ export const parseDelimiter = (input) => {
     const strippedInput = input.replace(prefix, "");
 
     return [strippedInput, delimiter];
-  } else {
-    // 커스텀 구분자가 둘 이상인 경우
-    throw new Error("[ERROR] 구분자는 한 번만 선언할 수 있습니다.");
   }
+
+  // 커스텀 구분자가 둘 이상인 경우
+  throw new Error("[ERROR] 구분자는 한 번만 선언할 수 있습니다.");
 };
 
 const validateDelimiter = (delimiter) => {
