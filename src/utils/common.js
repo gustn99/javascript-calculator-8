@@ -1,1 +1,1 @@
-export const isNumber = (str) => /^[0-9]$/.test(str);
+export const isNumber = (str) => /^\d+$/.test(str);
