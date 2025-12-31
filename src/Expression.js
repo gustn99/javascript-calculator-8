@@ -1,3 +1,5 @@
+import Numbers from './Numbers.js';
+
 class Expression {
   #expression;
 
@@ -18,7 +20,8 @@ class Expression {
   }
 
   split(delimiter) {
-    return this.#expression.split(delimiter);
+    const numbers = this.#expression.split(delimiter.getRegExp());
+    return new Numbers(numbers);
   }
 }
 

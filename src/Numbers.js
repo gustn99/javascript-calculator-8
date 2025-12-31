@@ -1,8 +1,7 @@
 class Numbers {
   #numbers;
 
-  constructor(expression, delimiter) {
-    const numbers = expression.split(delimiter.getDelimiterRegExp());
+  constructor(numbers) {
     numbers.forEach(this.validateNumeric);
     numbers.forEach(this.validateNumber);
 

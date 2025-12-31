@@ -16,7 +16,7 @@ class Delimiter {
     }
   }
 
-  getDelimiterRegExp() {
+  getRegExp() {
     return new RegExp(`[${this.#delimiter}]`);
   }
 }
