@@ -1,8 +1,13 @@
 import { Console } from '@woowacourse/mission-utils';
+import InputView from './views/InputView.js';
 
 class App {
+  constructor() {
+    this.inputView = new InputView();
+  }
+
   async run() {
-    const userInput = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.');
+    const userInput = await this.inputView.read('덧셈할 문자열을 입력해 주세요.');
     const numbers = this.parseNumbers(userInput);
     numbers.forEach(this.validateNumber);
 
@@ -11,28 +16,42 @@ class App {
   }
 
   parseNumbers(userInput) {
-    const regex = /\/\/(.*?)\\n/g;
-    const matchResults = [...userInput.matchAll(regex)];
-
-    let expression = userInput;
-    let delimiter = ',:';
-
-    if (matchResults.length > 1) {
-      throw new Error('[ERROR] 커스텀 구분자는 한 번만 선언할 수 있습니다.');
-    }
-
-    if (matchResults.length === 1) {
-      const regex = /^(\/\/.*?\\n)(.*)/;
-      const groups = userInput.match(regex);
-
-      expression = groups[2];
-      delimiter = matchResults[0][1];
-    }
+    let { expression, delimiter } = this.parseExpression(userInput);
 
     const numbers = expression.split(new RegExp(`[${delimiter}]`));
     numbers.forEach(this.validateNumeric);
 
     return numbers.map(Number);
+  }
+
+  parseExpression(userInput) {
+    let expression = userInput;
+    let delimiter = ',:';
+
+    const regex = /\/\/(.*?)\\n/g;
+    const foundDelimiters = [...userInput.matchAll(regex)].map(match => match[1]);
+    this.validateCustomDelimiterCount(foundDelimiters);
+
+    if (foundDelimiters.length === 1) {
+      expression = this.removeCustomDelimiterPrefix(userInput);
+      delimiter = foundDelimiters[0];
+    }
+
+    return { expression, delimiter };
+  }
+
+  removeCustomDelimiterPrefix(userInput) {
+    const regex = /^(\/\/.*?\\n)(.*)/;
+    const groups = userInput.match(regex);
+
+    const expression = groups[2];
+    return expression;
+  }
+
+  validateCustomDelimiterCount(foundDelimiters) {
+    if (foundDelimiters.length > 1) {
+      throw new Error('[ERROR] 커스텀 구분자는 한 번만 선언할 수 있습니다.');
+    }
   }
 
   validateNumeric(rawNum) {
