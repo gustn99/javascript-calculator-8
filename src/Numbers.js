@@ -2,7 +2,7 @@ class Numbers {
   #numbers;
 
   constructor(expression, delimiter) {
-    const numbers = expression.split(new RegExp(`[${delimiter}]`));
+    const numbers = expression.split(delimiter.getDelimiterRegExp());
     numbers.forEach(this.validateNumeric);
     numbers.forEach(this.validateNumber);
 
