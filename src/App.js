@@ -4,13 +4,13 @@ class App {
   async run() {
     const userInput = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.');
     const numbers = this.parseNumbers(userInput);
+    numbers.forEach(this.validateNumber);
 
     const result = numbers.reduce((total, cur) => total + cur, 0);
     Console.print(`결과 : ${result}`);
   }
 
   parseNumbers(userInput) {
-    // user input으로부터 식과 구분자 추출 -> numbers 배열 반환
     const regex = /\/\/(.*?)\\n/g;
     const matchResults = [...userInput.matchAll(regex)];
 
@@ -29,12 +29,26 @@ class App {
       delimiter = matchResults[0][1];
     }
 
-    // number 검증
-    const numbers = expression.split(new RegExp(`[${delimiter}]`)).map(Number);
+    const numbers = expression.split(new RegExp(`[${delimiter}]`));
+    numbers.forEach(this.validateNumeric);
 
-    return numbers;
+    return numbers.map(Number);
   }
 
+  validateNumeric(rawNum) {
+    // 공백 허용(무시)
+    const parsedNum = Number(rawNum);
+
+    if (Number.isNaN(parsedNum)) {
+      throw new Error('[ERROR] 피연산자는 숫자만 입력 가능합니다.');
+    }
+  }
+
+  validateNumber(num) {
+    if (num <= 0) {
+      throw new Error('[ERROR] 피연산자는 양수만 입력 가능합니다.');
+    }
+  }
 }
 
 export default App;
