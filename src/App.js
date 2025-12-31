@@ -1,5 +1,6 @@
 import { Console } from '@woowacourse/mission-utils';
 import InputView from './views/InputView.js';
+import Numbers from './Numbers.js';
 
 class App {
   constructor() {
@@ -8,20 +9,11 @@ class App {
 
   async run() {
     const userInput = await this.inputView.read('덧셈할 문자열을 입력해 주세요.');
-    const numbers = this.parseNumbers(userInput);
-    numbers.forEach(this.validateNumber);
+    const { expression, delimiter } = this.parseExpression(userInput);
+    const numbers = new Numbers(expression, delimiter);
 
-    const result = numbers.reduce((total, cur) => total + cur, 0);
+    const result = numbers.getSum();
     Console.print(`결과 : ${result}`);
-  }
-
-  parseNumbers(userInput) {
-    let { expression, delimiter } = this.parseExpression(userInput);
-
-    const numbers = expression.split(new RegExp(`[${delimiter}]`));
-    numbers.forEach(this.validateNumeric);
-
-    return numbers.map(Number);
   }
 
   parseExpression(userInput) {
@@ -54,20 +46,6 @@ class App {
     }
   }
 
-  validateNumeric(rawNum) {
-    // 공백 허용(무시)
-    const parsedNum = Number(rawNum);
-
-    if (Number.isNaN(parsedNum)) {
-      throw new Error('[ERROR] 피연산자는 숫자만 입력 가능합니다.');
-    }
-  }
-
-  validateNumber(num) {
-    if (num <= 0) {
-      throw new Error('[ERROR] 피연산자는 양수만 입력 가능합니다.');
-    }
-  }
 }
 
 export default App;
